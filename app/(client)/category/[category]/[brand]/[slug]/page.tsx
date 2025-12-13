@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { fetchProducts } from "@/lib/api";
 import { createSlug } from "@/lib/utils";
 import DetailsPage from "@/components/features/products/DetailsPage";
@@ -20,7 +21,6 @@ export default async function ProductDetailPage({
       p.category.toLowerCase() === category.toLowerCase()
   );
 
-  
   if (!product) {
     return (
       <section className="min-h-screen flex items-center justify-center px-4">
@@ -34,8 +34,8 @@ export default async function ProductDetailPage({
   }
 
   return (
-    <section>
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
       <DetailsPage product={product} />
-    </section>
+    </Suspense>
   );
 }

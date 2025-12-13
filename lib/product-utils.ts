@@ -1,4 +1,4 @@
-import { Product } from "@/store/type";
+import { Product } from "@/type/type";
 
 // lib/product-utils.ts
 export function findProductBySlug(slug: string, products: Product[]) {

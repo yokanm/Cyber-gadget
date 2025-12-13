@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { Home, Search, ShoppingBag, AlertCircle } from 'lucide-react';
-;
 
 export default function NotFound() {
   return (
@@ -46,7 +45,7 @@ export default function NotFound() {
           </Link>
           
           <Link
-            href="/category/computer"
+            href="/category"
             className="flex items-center gap-2 px-8 py-4 bg-white text-gray-900 border-2 border-gray-300 rounded-lg hover:border-gray-900 transition-all font-medium group"
           >
             <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform" />

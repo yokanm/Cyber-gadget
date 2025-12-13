@@ -5,12 +5,12 @@ import { StoreProvider } from "@/constants";
 import Navbar from "@/components/layout/Navbar";
 import Breadcrumb from "@/components/layout/Breadcrumb";
 import Footer from "@/components/layout/Footer";
-
+import { Suspense } from "react";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  display: 'swap', // Better font loading
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -29,8 +29,12 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body className="font-inter antialiased min-h-screen flex flex-col">
         <StoreProvider>
-          <Navbar />
-          <Breadcrumb />
+          <Suspense fallback={<div className="h-20 bg-white border-b" />}>
+            <Navbar />
+          </Suspense>
+          <Suspense fallback={null}>
+            <Breadcrumb />
+          </Suspense>
           <main>
             {children}
           </main>
