@@ -1,4 +1,3 @@
-
 import { fetchProducts } from "@/lib/api";
 import { createSlug } from "@/lib/utils";
 import DetailsPage from "@/components/features/products/DetailsPage";
@@ -7,9 +6,10 @@ import Link from "next/link";
 export default async function ProductDetailPage({
   params,
 }: {
-  params: { category: string; brand: string; slug: string };
+  params: Promise<{ category: string; brand: string; slug: string }>;
 }) {
-  const { category, brand, slug } = params;
+  // Await params in Next.js 15
+  const { category, brand, slug } = await params;
   const products = await fetchProducts();
 
   // Find product by matching slug, brand, and category
