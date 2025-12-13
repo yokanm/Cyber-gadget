@@ -1,10 +1,13 @@
+// lib/api.ts
 import { Product } from "@/type/type";
-const URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+const URL = "/api";
 
 export async function fetchProducts(): Promise<Product[]> {
   try {
     const res = await fetch(`${URL}/products`, {
-      cache: 'no-store', // Important for Next.js 15
+      cache: 'no-store',
+      next: { revalidate: 3600 } // Cache for 1 hour
     });
     
     if (!res.ok) {
