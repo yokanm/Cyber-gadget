@@ -43,12 +43,14 @@ products.csv
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
 # =========================
 # Supabase (Local & Secrets)
 # =========================
+# Only ignore local development files, not config
 .supabase/
 supabase/.temp/
 supabase/.branches/
-supabase/.env
-supabase/.local/
+
+# Keep these - needed for deployment
+# supabase/config.toml (commit this)
+# supabase/migrations/ (commit these)
