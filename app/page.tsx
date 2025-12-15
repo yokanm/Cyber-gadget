@@ -6,6 +6,7 @@ import HomeGrid from "@/components/features/home/HomeGrid";
 import BigBanner from "@/components/features/home/BigBanner";
 import Discount from "@/components/features/cart/Discount";
 import Banner3 from "@/components/features/home/Banner3";
+import { fetchProducts } from '@/lib/api';
 
 function DiscountSkeleton() {
   return (
@@ -18,16 +19,19 @@ function DiscountSkeleton() {
 }
 
 export default async function Home() {
+  // Fetch data server-side
+  const products = await fetchProducts();
+
   return (
     <main className="overflow-hidden">
       <Hero />
       <Banner />
-      <Categories />
-      <HomeGrid />
+      <Categories products={products} />
+      <HomeGrid products={products} />
       <BigBanner />
       <section className="py-14 px-4 xl:px-40 xl:py-14 bg-[#F9F9F9]">
         <Suspense fallback={<DiscountSkeleton />}>
-          <Discount />
+          <Discount products={products} />
         </Suspense>
       </section>
       <Banner3 />

@@ -46,13 +46,13 @@ export default function SingleBrandPage() {
     );
     
     // Apply search filter
-    if (searchQuery) {
-      products = products.filter(product =>
-        product.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.details.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.category.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+   if (searchQuery) {
+  products = products.filter(product =>
+    product.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (product.details?.toLowerCase() || '').includes(searchQuery.toLowerCase()) ||
+    product.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+}
 
     return products;
   }, [allProducts, brandSlug, searchQuery]);
