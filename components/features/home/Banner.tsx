@@ -4,6 +4,7 @@ import Airpod from '@/public/assets/images/Airpod.png'
 import Vision from '@/public/assets/images/Vision Pro.png'
 import Ps5 from '@/public/assets/images/PlayStation_Big.png'
 import Macbook from '@/public/assets/images/MacBook Pro 14.png'
+import Link from 'next/link'
 function Banner() {
   return (
     <section className='grid grid-cols-1 lg:grid-cols-4 lg:grid-rows-1'>
@@ -44,8 +45,14 @@ function Banner() {
                   <h3 className='text-black text-4xl font-medium leading-8 lg:text-[64px] lg:font-thin'>Macbook <span className='font-light lg:text-[64px] lg:font-medium lg:block lg:mt-6 xl:mt-4 '> Air </span></h3>
                   <p className='text-neutral-400 text-sm font-medium leading-normal'>The new 15‑inch MacBook Air makes room for more of what you love with a spacious Liquid Retina display.</p>
               </div>
-              <div className='flex justify-center items-center self-stretch md:self-center xl:self-start rounded-[6px] border border-black'>
-                  <button className='text-center text-base font-medium py-4 px-14 '>Shop Now</button>
+              <div className='flex justify-center items-center self-stretch md:self-center xl:self-start rounded-[6px] border border-black hover:bg-black hover:text-white transition duration-300'>
+                <Link href={'/category/computer'}>
+                  <button
+                    className='text-center text-base font-medium py-4 px-14 '
+                  >
+                        Shop Now
+                  </button>
+                </Link>
               </div>
           </div>
       </div>

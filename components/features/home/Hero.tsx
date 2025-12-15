@@ -18,12 +18,14 @@ const Hero = () => {
                 <p className='text-neutral-400 text-lg font-medium text-center leading-normal'>Created to change everything for the better. For everyone</p>
             </div>
             <div className='items-center pb-4 gap-2'>
-               <Button
-                variant='custom' 
-                size='custom' 
-                className='hover:bg-white hover:text-black transition duration-300 items-center'>
-                    <Link href={'/category/phone'}>Shop Now</Link> 
-               </Button>
+                <Link href={'/category/phone'}>
+                    <Button
+                        variant='custom' 
+                        size='custom' 
+                        className='hover:bg-white hover:text-black transition duration-300 items-center'>
+                            Shop Now 
+                    </Button>
+               </Link>
             </div>
         </div>
         <div className='w-full h-[289px] flex justify-center relative items-center self-stretch xl:w-[406px] xl:h-[632px]'>

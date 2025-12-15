@@ -7,20 +7,20 @@ import { Heart } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useWishlist } from '@/contexts/WishlistContext'
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchProducts } from '@/lib/api';
 import { createSlug } from '@/lib/utils';
 
-interface DiscountProps {
-  products: Product[];
-}
-
+// Predefined discount percentages
 const DISCOUNT_OPTIONS = [5, 10, 15, 20, 25, 30];
-const ROTATION_INTERVAL = 10 * 60 * 1000;
+const ROTATION_INTERVAL = 10 * 60 * 1000; // 10 minutes in milliseconds
 
+// Helper function to get random discount
 const getRandomDiscount = () => {
   return DISCOUNT_OPTIONS[Math.floor(Math.random() * DISCOUNT_OPTIONS.length)];
 };
 
+// Helper function to shuffle array
 const shuffleArray = <T,>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -34,20 +34,33 @@ interface ProductWithDiscount extends Product {
   discount: number;
 }
 
-export default function Discount({ products }: DiscountProps) {
-  const [rotationKey, setRotationKey] = useState(0);
+export default function Discount() {
+  const [products, setProducts] = useState<ProductWithDiscount[]>([])
+  const [rotationKey, setRotationKey] = useState(0); // Key to trigger re-randomization
   
-  const discountProducts = useMemo(() => {
-    const shuffled = shuffleArray(products);
-    return shuffled.slice(0, 4).map(product => ({
-      ...product,
-      discount: getRandomDiscount()
-    }));
-  }, [products, rotationKey]);
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const data = await fetchProducts();
+        // Shuffle products and assign random discounts
+        const shuffled = shuffleArray(data);
+        const productsWithDiscounts = shuffled.map(product => ({
+          ...product,
+          discount: getRandomDiscount()
+        }));
+        setProducts(productsWithDiscounts);
+      } catch(error) {
+        console.error('Failed to load products:', error);
+      }
+    };
+    
+    loadProducts();
+  }, [rotationKey]); // Re-fetch when rotationKey changes
 
+  // Set up interval to rotate products every 10 minutes
   useEffect(() => {
     const interval = setInterval(() => {
-      setRotationKey(prev => prev + 1);
+      setRotationKey(prev => prev + 1); // Trigger product reload
     }, ROTATION_INTERVAL);
 
     return () => clearInterval(interval);
@@ -101,8 +114,9 @@ export default function Discount({ products }: DiscountProps) {
         Discounts up to -50%
       </h2>
 
+      {/* Responsive grid & horizontal scroll for mobile */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4">
-        {discountProducts.map((product) => {
+        {products.slice(0,4).map((product) => {
           const discountedPrice = (product.price * (1 - product.discount / 100)).toFixed(2);
 
           return (
