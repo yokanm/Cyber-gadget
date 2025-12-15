@@ -39,7 +39,7 @@ useEffect(() => {
   }, []);
 // json-server --watch mock_products_200.json --port 5000
   const filteredProducts = products.filter(
-    (product) => product.value.toLowerCase() === selectedTab
+    (product) => product.value?.toLowerCase() === selectedTab
   );
  
   

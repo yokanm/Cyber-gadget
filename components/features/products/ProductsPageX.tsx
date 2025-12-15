@@ -165,7 +165,7 @@ const ProductsPageX = ({category}: {category: string}) => {
       const searchMatch = searchQuery.trim() === "" ||
         product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.details.toLowerCase().includes(searchQuery.toLowerCase())
+        product.details?.toLowerCase().includes(searchQuery.toLowerCase())
       
       const priceMatch = 
         product.price >= priceRange[0] && 

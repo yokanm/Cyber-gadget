@@ -1,3 +1,4 @@
+// type/type.ts
 
 export interface Product {
   id: number;
@@ -5,47 +6,55 @@ export interface Product {
   brand: string;
   model: string;
   price: number;
-  color: string;
+  color: string | null;
   images: string[];
-  icon: string;
-  details: string;
-  views_images: {
-    front: string;
-    side: string;
-    back: string;
-  };
-  views: ViewImages;
-  viewImages: ViewImages;
-  value: string;
-  reviews: Review[];
-  ratings: number;
-  battery: string;
+  icon: string | null;
+  details: string | null;
+  
+  // JSON fields - use snake_case to match database
+  views_images?: ViewImages | null;
+  views?: Views | null;
+  // Remove view_images - it's a duplicate of views_images
+  
+  value: string | null;
+  reviews?: Review[];
+  battery: string | null;
   quantity: number;
-  size: string; 
+  size: string | null;
   specifications: Specifications;
   likes: boolean;
-  createdAt?: string;
+  
+  // Ratings
+  ratings?: number;
   rating?: number;
+  
+  // Timestamps
+  createdAt?: string;
+  created_at?: string | null;
+  updated_at?: string | null;
 }
+
 export interface Review {
   user_id: number;
   comment: string;
   rating: number;
 }
-export interface ViewImages{
-  front: string;
-  side: string;
-  back: string;
+
+export interface ViewImages {
+  front?: string;
+  side?: string;
+  back?: string;
 }
-export interface Views{
-  front: string;
-  side: string;
-  back: string;
+
+export interface Views {
+  front?: string;
+  side?: string;
+  back?: string;
 }
 
 export interface Specifications {
   CPU?: string;
-  battery?: string | undefined;
+  battery?: string;
   screen_size?: string;
   camera?: string;
   screen?: string;
@@ -54,10 +63,11 @@ export interface Specifications {
   screenDiagonal?: string;
   protectionClass?: string;
   builtInMemory?: string;
+  number_of_cores?: string;
   [key: string]: string | undefined;
 }
 
-// ============= 1. Wishlist Types =============
+// ============= WISHLIST TYPES =============
 export interface WishlistItem {
   id: string | number;
   name: string;
@@ -93,7 +103,6 @@ export interface CartItem {
   quantity: number;
   images?: string[];
   category?: string;
-  // addedAt: string;
 }
 
 export interface CartState {
@@ -104,7 +113,6 @@ export interface CartState {
   isLoading: boolean;
   error: string | null;
 }
-
 
 export interface CartContextType {
   cartItems: CartItem[];
@@ -117,8 +125,6 @@ export interface CartContextType {
   totalItems: number;
   cartTotal: number;
 }
-
-
 
 export interface FilterState {
   price: { min: number; max: number };
@@ -133,7 +139,6 @@ export interface FilterState {
 }
 
 // ============= CHECKOUT TYPES =============
-
 export interface Address {
   id: string;
   label: 'HOME' | 'OFFICE' | 'OTHER';
@@ -164,7 +169,6 @@ export interface ShippingMethod {
   selectedDate?: string;
 }
 
-
 export interface CheckoutState {
   currentStep: 1 | 2 | 3;
   addresses: Address[];
@@ -193,7 +197,8 @@ export interface FilterSidebarProps {
   setSearchQuery: (query: string) => void;
   resultsCount?: number;
 }
-export interface FilterState {
+
+export interface FilterStateProps {
   selectedBrands: string[];
   selectedBattery: string[];
   selectedSize: string[];
@@ -203,22 +208,11 @@ export interface FilterState {
   sortBy: 'rating' | 'price_asc' | 'price_desc' | 'newest';
 }
 
-
 // ============= ROOT STATE =============
 export interface RootState {
   cart: CartState;
   checkout: CheckoutState;
   filters: FilterState;
-  
 }
 
-// export interface FilterSection {
-//   id: keyof FilterState;
-//   title: string;
-//   type: 'range' | 'checkbox' | 'search' | 'rating';
-//   options?: string[];
-//   hasSearch?: boolean;
-// }
-
 export type ProductValue = "new" | "bestseller" | "featured";
-

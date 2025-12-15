@@ -49,7 +49,7 @@ export default function SingleBrandPage() {
     if (searchQuery) {
       products = products.filter(product =>
         product.model.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.details.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.details?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.category.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }

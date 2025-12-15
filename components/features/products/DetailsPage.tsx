@@ -73,9 +73,9 @@ export default function DetailsPage({product}: {product: Product})  {
     const mainImages = product.images;
 
     const viewImagesList = [
-      product.viewImages?.front,
-      product.viewImages?.side, 
-      product.viewImages?.back,
+      product.views_images?.front,
+      product.views_images?.side, 
+      product.views_images?.back,
     ].filter(Boolean);
 
     const viewList = [
@@ -85,7 +85,7 @@ export default function DetailsPage({product}: {product: Product})  {
   ].filter(Boolean);
 
     return [...mainImages, ...viewImagesList, ...viewList].slice(0, 4);
-  }, [product.images, product.viewImages, product.views]);
+  }, [product.images, product.views_images, product.views]);
 
   
   
@@ -179,7 +179,7 @@ export default function DetailsPage({product}: {product: Product})  {
           {thumbnailImages.map((img, idx) => (
             <div
               key={idx}
-              onClick={() => setSelectedImage(img)}
+              onClick={() => setSelectedImage(img || '/placeholder.png' )}
               className="w-16 h-16 rounded-lg overflow-hidden"
             >
               <Image
@@ -352,7 +352,7 @@ export default function DetailsPage({product}: {product: Product})  {
               {thumbnailImages.map((img, idx) => (
                 <div
                   key={idx}
-                  onClick={() => setSelectedImage(img)}
+                  onClick={() => setSelectedImage(img || "/placeholder.png")}
                   className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-gray-300 transition"
                 >
                   <Image

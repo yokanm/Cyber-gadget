@@ -44,7 +44,7 @@ function SearchResults() {
         product.model.toLowerCase().includes(searchTerm) ||
         product.brand.toLowerCase().includes(searchTerm) ||
         product.category.toLowerCase().includes(searchTerm) ||
-        product.details.toLowerCase().includes(searchTerm) ||
+        product.details?.toLowerCase().includes(searchTerm) ||
         (product.specifications?.CPU || '').toLowerCase().includes(searchTerm)
       );
     });
