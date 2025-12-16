@@ -88,9 +88,6 @@ export default function DetailsPage({product}: {product: Product})  {
   }, [product.images, product.views_images, product.views]);
 
   
-  // NEW: State for discount products
-  const [discountProducts, setDiscountProducts] = useState<Product[]>([]);
-  const [loadingDiscounts, setLoadingDiscounts] = useState(true);
   
   const [discountedPrice, setDiscountedPrice] = useState<number>(product?.price || 0);
   const [selectedImage, setSelectedImage] = useState<string>(thumbnailImages[0] || "/placeholder.png");
@@ -104,38 +101,6 @@ export default function DetailsPage({product}: {product: Product})  {
       setDiscountedPrice(product.price * (1 - randomDiscount / 100));
     }
   }, [product]);
-
-  // NEW: Fetch products for discount section
-  useEffect(() => {
-    async function fetchDiscountProducts() {
-      try {
-        setLoadingDiscounts(true);
-        // Option A: Fetch from your API endpoint
-        const response = await fetch('/api/products');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-        
-        const data = await response.json();
-        
-        // Filter out the current product and get related products
-        const filteredProducts = data.filter((p: Product) => p.id !== product.id);
-        
-        setDiscountProducts(filteredProducts);
-      } catch (error) {
-        console.error('Error fetching discount products:', error);
-        // Set empty array on error so component doesn't break
-        setDiscountProducts([]);
-      } finally {
-        setLoadingDiscounts(false);
-      }
-    }
-    
-    if (product?.id) {
-      fetchDiscountProducts();
-    }
-  }, [product?.id]);
  
 
   const { addToCart } = useCart()
@@ -214,7 +179,7 @@ export default function DetailsPage({product}: {product: Product})  {
           {thumbnailImages.map((img, idx) => (
             <div
               key={idx}
-              onClick={() => setSelectedImage(img || "/placeholder.png")}
+              onClick={() => setSelectedImage(img || '/placeholder.png' )}
               className="w-16 h-16 rounded-lg overflow-hidden"
             >
               <Image
@@ -376,16 +341,18 @@ export default function DetailsPage({product}: {product: Product})  {
         </div>
       </div>
 
-      {/* DESKTOP VIEW */}
+      {/* DESKTOP VIEW - (Hidden on mobile) */}
       <section className='hidden lg:block lg:px-20 lg:py-14 xl:px-40 xl:py-28'>
+        {/* Main Product Section */}
         <main className="grid grid-cols-1 lg:grid-cols-2 lg:gap-12">
-          {/* Desktop content - keeping your original desktop layout */}
+          {/* Left Side - Images */}
           <div className="flex gap-4">
+            {/* Thumbnail Gallery */}
             <div className="flex flex-col gap-4 mt-24">
               {thumbnailImages.map((img, idx) => (
                 <div
                   key={idx}
-                  onClick={() => setSelectedImage(img || '/placeholder.png')}
+                  onClick={() => setSelectedImage(img || "/placeholder.png")}
                   className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-gray-300 transition"
                 >
                   <Image
@@ -395,10 +362,12 @@ export default function DetailsPage({product}: {product: Product})  {
                     height={80}
                     className="object-cover w-full h-full"
                     quality={75}
+                    
                   />
                 </div>
               ))}
             </div>
+            {/* Main Image */}
             <div className="flex-1 bg-white p-8 flex items-center justify-center mb-24">
               {selectedImage ? (
                 <Image
@@ -410,11 +379,13 @@ export default function DetailsPage({product}: {product: Product})  {
                   quality={75}
                   loading="lazy" 
                 />
+
               ) : 
               (<div className="placeholder">No Image</div>)}
             </div>
           </div>
   
+          {/* Right Side - Product Info */}
           <div className="space-y-8">
             <div>
               <h1 className="text-4xl font-bold mb-3">{product.model}</h1>
@@ -426,6 +397,7 @@ export default function DetailsPage({product}: {product: Product})  {
               </div>
             </div>
   
+            {/* Color Selection */}
             <div>
               <label className="text-sm font-normal text-gray-600 mb-3 block">
                 Select color :
@@ -442,6 +414,7 @@ export default function DetailsPage({product}: {product: Product})  {
               </div>
             </div>
   
+            {/* Storage Options */}
             <div>
               <div className="grid grid-cols-4 gap-4">
                 {storageOptions.map((storage, idx) => (
@@ -459,6 +432,7 @@ export default function DetailsPage({product}: {product: Product})  {
               </div>
             </div>
   
+            {/* Key Specs Grid */}
             <div className="grid grid-cols-3 gap-4">
               <div className="bg-gray-50 rounded-lg md:px-2 md:py-4 flex items-center gap-2">
                 <Monitor className="w-6 h-6 text-gray-600" />
@@ -510,11 +484,13 @@ export default function DetailsPage({product}: {product: Product})  {
               </div>
             </div>
   
+            {/* Description */}
             <p className="text-gray-600 text-sm leading-6">
-              {product.details || "Enhanced capabilities thanks to an enlarged display of 6.7 inches and work without recharging throughout the day. Incredible photos as in weak, yes and in bright light using the new system with two cameras"}{" "}
+              {product.details || "Enhanced capabilities thanks toan enlarged display of 6.7 inchesand work without rechargingthroughout the day. Incredible photosas in weak, yes and in bright lightusing the new systemwith two cameras"}{" "}
               <span className="font-semibold text-gray-950 cursor-pointer">more...</span>
             </p>
   
+            {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-4 pt-4">
               <Button
                 onClick={(e) => handleWishlist(e, product)}
@@ -530,6 +506,7 @@ export default function DetailsPage({product}: {product: Product})  {
               </Button>
             </div>
   
+            {/* Delivery Info */}
             <div className="grid grid-cols-3 gap-8 pt-6 border-t">
               <div className="flex items-center gap-4 ">
                 <div className="bg-gray-200 p-4">
@@ -563,7 +540,6 @@ export default function DetailsPage({product}: {product: Product})  {
         </main>
       </section>
 
-      {/* Details Section */}
       <section className='px-4 py-10 lg:px-40 lg:py-20 bg-gray-100'>
         <main className='px-6 py-12 lg:px-10 lg:py-12 bg-white'>
           <h2 className="text-2xl font-medium mb-6">Details</h2>
@@ -578,6 +554,7 @@ export default function DetailsPage({product}: {product: Product})  {
             6.7-inch Retina panels, which had ProMotion, caused real admiration for many.
           </p>
   
+          {/* Screen Specifications */}
           <div className="gap-6">
             <h3 className="text-xl font-semibold">Screen</h3>
             <div className="space-y-4">
@@ -587,7 +564,7 @@ export default function DetailsPage({product}: {product: Product})  {
               </div>
               <div className="flex justify-between py-3 border-b">
                 <span className="text-gray-600">The screen resolution</span>
-                <span className="font-medium">2796×1290</span>
+                <span className="font-medium">2796Ã—1290</span>
               </div>
               <div className="flex justify-between py-3 border-b">
                 <span className="text-gray-600">The screen refresh rate</span>
@@ -617,6 +594,7 @@ export default function DetailsPage({product}: {product: Product})  {
               )}
             </div>
   
+            {/* CPU Specifications */}
             {showMoreDetails && (
               <>
                 <h3 className="text-xl font-semibold pt-8">CPU</h3>
@@ -644,120 +622,121 @@ export default function DetailsPage({product}: {product: Product})  {
           </div>
         </main>
       </section>
-
-      {/* Reviews Section */}
-      <section className="px-4 py-10 lg:px-40 lg:py-22">
-        <div>
-          <h2 className="text-2xl font-medium mb-8">Reviews</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
-            <div className="px-2 md:px-60 lg:px-0 xl:mr-12 text-center">
-              <div className="flex gap-4 rounded-xl px-8 pt-4 md:flex-col md:pt-8 lg:px-0 md:pb-4 xl:rounded-4xl md:gap-0 border bg-gray-200 ">
-                <div>
-                    <div className="font-inter text-5xl md:text-6xl md:font-bold mb-2">{reviewStats.average}</div>
-                    <p className="text-xs md:text-lg font-inter text-gray-400 mb-3">of {reviewStats.total} reviews</p>
-                </div>
-
-                <div className='mt-6 pl-1 lg:mt-0 lg:px-0 '>
-                    <div className="flex justify-center gap-1 mb-6">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <span key={star}>
-                          <Star size={24} className={
-                            star <= Math.floor(reviewStats.average)
-                             ? "fill-yellow-400 text-yellow-400"
-                             : "text-gray-300"}
-                            />
-                        </span>
-                      ))}
-                    </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-3 space-y-3">
-              {reviewStats.breakdown.map((item, idx) => (
-                <div key={idx} className="flex items-center gap-4">
-                  <span className="text-sm font-semibold text-gray-600 w-28">{item.label}</span>
-                  <div className="flex-1 h-2 rounded-full overflow-hidden bg-[#D9D9D9] border border-[#D9D9D9]">
-                    <div
-                      className="h-full bg-[#FFB547] rounded-full "
-                      style={{ width: `${item.percentage}%` }}
-                    />
+        {/* REVIEWS SECTION - Responsive */}
+        <section className="px-4 py-10 lg:px-40 lg:py-22">
+          <div>
+            <h2 className="text-2xl font-medium mb-8">Reviews</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 mb-12">
+              {/* Overall Rating */}
+              <div className="px-2 md:px-60 lg:px-0 xl:mr-12 text-center">
+                <div className="flex gap-4 rounded-xl px-8 pt-4 md:flex-col md:pt-8 lg:px-0 md:pb-4 xl:rounded-4xl md:gap-0 border bg-gray-200 ">
+                  <div>
+                      <div className="font-inter text-5xl md:text-6xl md:font-bold mb-2">{reviewStats.average}</div>
+                      <p className="text-xs md:text-lg font-inter text-gray-400 mb-3">of {reviewStats.total} reviews</p>
                   </div>
-                  <span className="text-sm text-gray-600 w-8 text-right">
-                    {item.count}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="w-full border border-gray-300 rounded-md mb-8" >
-            <input type="text" placeholder="Leave Comment" className="w-full px-4 py-6 text-gray-400" />
-          </div>
-        </div>
 
-        <div className='space-y-6'>
-          {reviews.slice(0, showMoreReviews ? reviews.length : 2).map((review, idx) =>(
-              <div
-                key={idx}
-                className='flex pl-4 pr-7 py-6 space-y-5 space-x-6  bg-gray-100 rounded-xl'
-              >
-                <div>
-                  <div className="w-14 h-14 bg-gray-200 rounded-full overflow-hidden flex-shrink-0">
-                    <div className="w-full h-full bg-gradient-to-br from-yellow-400 to-black" />
-                  </div>
-                </div>
-
-                <div className='space-y-2'>
-                  <div className='space-y-2'>
-                    <div className='flex justify-between'>
-                      <p className='font-inter font-bold text-sm'>{review.name}</p>
-                      <p className='font-inter font-medium text-xs text-gray-400'>{review.date}</p>
-                    </div>
-                    <div className="flex gap-1 my-1">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                          <span key={star}>
-                            <Star size={16} className={
-                              star <= review.rating
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "text-gray-300"}
+                  <div className='mt-6 pl-1 lg:mt-0 lg:px-0 '>
+                      <div className="flex justify-center gap-1 mb-6">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <span
+                            key={star}
+                          >
+                            <Star size={24} className={
+                              star <= Math.floor(reviewStats.average)
+                               ? "fill-yellow-400 text-yellow-400"
+                               : "text-gray-300"}
                               />
                           </span>
                         ))}
-                    </div> 
+                      </div>
                   </div>
-                    <div className='font-inter font-medium text-gray-400 leading-relaxed'>{review.comment}</div>
                 </div>
-                
               </div>
-          ))}
-        </div>
-        <div className="text-center mt-8">
-          <Button
-            variant="outline" 
-            className="px-14 py-3 border-2 border-gray-500"
-            onClick={() => setShowMoreReviews(!showMoreReviews)}
-          >
-            {showMoreReviews ? 'View Less' : 'View More'}
-          </Button>
-        </div>
-      </section> 
 
-      {/* NEW: Discount Section with products prop */}
-      <section className='px-4 mb-20 lg:px-40 lg:py-20'>
-        {loadingDiscounts ? (
-          <div className="text-center py-10">
-            <p className="text-gray-400">Loading discounts...</p>
+              {/* Rating Breakdown */}
+              <div className="lg:col-span-3 space-y-3">
+                {reviewStats.breakdown.map((item, idx) => (
+                  <div key={idx} className="flex items-center gap-4">
+                    <span className="text-sm font-semibold text-gray-600 w-28">{item.label}</span>
+                    <div className="flex-1 h-2 rounded-full overflow-hidden bg-[#D9D9D9] border border-[#D9D9D9]">
+                      <div
+                        className="h-full bg-[#FFB547] rounded-full "
+                        style={{ width: `${item.percentage}%` }}
+                      />
+                    </div>
+                    <span className="text-sm text-gray-600 w-8 text-right">
+                      {item.count}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+              {/* Leave Comment Button */}
+            <div className="w-full border border-gray-300 rounded-md mb-8" >
+              <input type="text" placeholder="Leave Comment" className="w-full px-4 py-6 text-gray-400" />
+            </div>
           </div>
-        ) : discountProducts.length > 0 ? (
-          <Discount products={discountProducts} />
-        ) : (
-          <div className="text-center py-10">
-            <p className="text-gray-400">No discount products available</p>
-          </div>
-        )}
-      </section>
+
+          
+
+              {/* Individual Reviews */}
+              <div className='space-y-6'>
+                {reviews.slice(0, showMoreReviews ? reviews.length : 2).map((review, idx) =>(
+                    <div
+                      key={idx}
+                      className='flex pl-4 pr-7 py-6 space-y-5 space-x-6  bg-gray-100 rounded-xl'
+                    >
+                      {/* Image Profile */}
+                      <div>
+                        <div className="w-14 h-14 bg-gray-200 rounded-full overflow-hidden flex-shrink-0">
+                          <div className="w-full h-full bg-gradient-to-br from-yellow-400 to-black" />
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className='space-y-2'>
+                        <div className='space-y-2'>
+                          <div className='flex justify-between'>
+                            <p className='font-inter font-bold text-sm'>{review.name}</p>
+                            <p className='font-inter font-medium text-xs text-gray-400'>{review.date}</p>
+                          </div>
+                          {/* Stars */}
+                          <div className="flex gap-1 my-1">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <span
+                                  key={star}
+                                >
+                                  <Star size={16} className={
+                                    star <= review.rating
+                                      ? "fill-yellow-400 text-yellow-400"
+                                      : "text-gray-300"}
+                                    />
+                                </span>
+                              ))}
+                          </div> 
+                        </div>
+                          <div className='font-inter font-medium text-gray-400 leading-relaxed'>{review.comment}</div>
+                      </div>
+                      
+                    </div>
+                ))}
+              </div>
+              <div className="text-center mt-8">
+                <Button
+                  variant="outline" 
+                  className="px-14 py-3 border-2 border-gray-500"
+                  onClick={() => setShowMoreReviews(!showMoreReviews)}
+                >
+                  {showMoreReviews ? 'View Less' : 'View More'}
+                </Button>
+              </div>
+        </section> 
+
+        <section className='px-4 mb-20 lg:px-40 lg:py-20'>
+          <Discount />
+        </section>
         
-    </>
-  );
-}
+      </>
+    );
+  }
+

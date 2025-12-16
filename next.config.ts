@@ -33,20 +33,15 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'picsum.photos'},
       { protocol: 'https', hostname: 'ui-avatars.com'},
     ],
+
+    domains: [
+      'fdn2.gsmarena.com',
+      'fdn.gsmarena.com',
+      'gsmarena.com',
+    ],
   },
   // ESLint configuration
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: false, // Keep this false to catch errors
-  },
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    // !! WARN !!
-    ignoreBuildErrors: false, // Keep this false to catch errors
-  },
+  
 };
 
 export default nextConfig;
