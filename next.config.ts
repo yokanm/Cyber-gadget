@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+  /* config options here */
+ 
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'www.apple.com' },
@@ -33,12 +35,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'picsum.photos'},
       { protocol: 'https', hostname: 'ui-avatars.com'},
     ],
-
-    domains: [
-      'fdn2.gsmarena.com',
-      'fdn.gsmarena.com',
-      'gsmarena.com',
-    ],
+    
   },
   // ESLint configuration
   

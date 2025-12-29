@@ -64,3 +64,6 @@ check-sync.ts
 
 # =========================
 mock_products_200.json
+seed-products.ts
+products_new.csv
+file.sql
