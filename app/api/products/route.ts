@@ -18,8 +18,6 @@ export async function GET() {
   try {
     const supabase = getSupabaseClient();
     
-    console.log('Fetching products from Supabase...');
-    
     const { data: products, error } = await supabase
       .from('products')
       .select('*')
@@ -28,25 +26,32 @@ export async function GET() {
     if (error) {
       console.error('Supabase error:', error);
       return NextResponse.json(
-        { error: error.message, details: error },
+        { error: error.message },
         { status: 500 }
       );
     }
 
-    console.log(`Successfully fetched ${products?.length || 0} products`);
+    // Transform products to match expected format
+    const transformedProducts = (products || []).map(product => ({
+      ...product,
+      category: product.category || '',
+      brand: product.brand || '',
+      model: product.model || '',
+      images: Array.isArray(product.images) ? product.images : [],
+      specifications: product.specifications || {},
+      rating: Number(product.rating) || Number(product.ratings) || 0,
+    }));
 
-    return NextResponse.json(products || [], {
+    return NextResponse.json(transformedProducts, {
       headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+        // Shorter cache for dynamic content
+        'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=30',
       },
     });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.error('API error:', error);
     return NextResponse.json(
-      { 
-        error: 'Failed to fetch products',
-        message: error instanceof Error ? error.message : 'Unknown error'
-      },
+      { error: 'Failed to fetch products' },
       { status: 500 }
     );
   }
