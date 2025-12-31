@@ -249,7 +249,7 @@ export default function DetailsPage({product}: {product: Product})  {
             <div>
               <div className="text-xs text-gray-500">Screen size</div>
               <div className="text-sm font-semibold truncate">
-              {product.specifications?.screen_size || product.specifications?.screenDiagonal || "6.7\""}</div>
+              {product.specifications?.screen_size || product.specifications?.screenDiagonal || "6.7 &quot;"}</div>
             </div>
           </div>
           <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
@@ -564,7 +564,7 @@ export default function DetailsPage({product}: {product: Product})  {
               </div>
               <div className="flex justify-between py-3 border-b">
                 <span className="text-gray-600">The screen resolution</span>
-                <span className="font-medium">2796Ã—1290</span>
+                <span className="font-medium">2796—1290</span>
               </div>
               <div className="flex justify-between py-3 border-b">
                 <span className="text-gray-600">The screen refresh rate</span>

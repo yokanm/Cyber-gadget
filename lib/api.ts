@@ -12,7 +12,7 @@ function transformProduct(row: any): Product {
     images: Array.isArray(row.images) ? row.images : [],
     icon: row.icon || null,
     details: row.details || null,
-    views_images: row.views_images || null,
+    views_images: row.views_images || { front: '', side: '', back: '' } || null,
     views: row.views || null,
     value: row.value || 'new',
     reviews: Array.isArray(row.reviews) ? row.reviews : [],
