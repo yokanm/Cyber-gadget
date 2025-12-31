@@ -1,4 +1,3 @@
-
 // lib/api.ts
 import { Product } from '@/type/type';
 

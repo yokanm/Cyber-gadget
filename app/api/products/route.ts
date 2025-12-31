@@ -1,6 +1,5 @@
 // app/api/products/route.ts
 import { NextResponse } from 'next/server';
-
 import { createClient } from '@supabase/supabase-js';
 
 // Create Supabase client with environment variables
@@ -48,7 +47,6 @@ export async function GET() {
         error: 'Failed to fetch products',
         message: error instanceof Error ? error.message : 'Unknown error'
       },
-
       { status: 500 }
     );
   }
