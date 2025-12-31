@@ -12,77 +12,108 @@ export type Database = {
   __InternalSupabase: {
     PostgrestVersion: "13.0.5"
   }
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
       products: {
         Row: {
           battery: string | null
-          brand: string | null
-          cameras: string | null
-          category: string | null
+          brand: string
+          category: string
           color: string | null
-          cpu: string | null
+          created_at: string | null
           details: string | null
           icon: string | null
           id: number
-          images: string | null
+          images: string[] | null
           likes: boolean | null
-          model: string | null
-          price: number | null
+          model: string
+          price: number
+          quantity: number | null
+          rating: number | null
           ratings: number | null
           reviews: Json | null
-          screen_size: string | null
-          stock: number | null
+          size: string | null
+          specifications: Json | null
+          updated_at: string | null
           value: string | null
-          view_images_back: string | null
-          view_images_front: string | null
-          view_images_side: string | null
+          view_images: Json | null
+          views: Json | null
+          views_images: Json | null
         }
         Insert: {
           battery?: string | null
-          brand?: string | null
-          cameras?: string | null
-          category?: string | null
+          brand: string
+          category: string
           color?: string | null
-          cpu?: string | null
-          details?: string | null
-          icon?: string | null
-          id: number
-          images?: string | null
-          likes?: boolean | null
-          model?: string | null
-          price?: number | null
-          ratings?: number | null
-          reviews?: Json | null
-          screen_size?: string | null
-          stock?: number | null
-          value?: string | null
-          view_images_back?: string | null
-          view_images_front?: string | null
-          view_images_side?: string | null
-        }
-        Update: {
-          battery?: string | null
-          brand?: string | null
-          cameras?: string | null
-          category?: string | null
-          color?: string | null
-          cpu?: string | null
+          created_at?: string | null
           details?: string | null
           icon?: string | null
           id?: number
-          images?: string | null
+          images?: string[] | null
           likes?: boolean | null
-          model?: string | null
-          price?: number | null
+          model: string
+          price: number
+          quantity?: number | null
+          rating?: number | null
           ratings?: number | null
           reviews?: Json | null
-          screen_size?: string | null
-          stock?: number | null
+          size?: string | null
+          specifications?: Json | null
+          updated_at?: string | null
           value?: string | null
-          view_images_back?: string | null
-          view_images_front?: string | null
-          view_images_side?: string | null
+          view_images?: Json | null
+          views?: Json | null
+          views_images?: Json | null
+        }
+        Update: {
+          battery?: string | null
+          brand?: string
+          category?: string
+          color?: string | null
+          created_at?: string | null
+          details?: string | null
+          icon?: string | null
+          id?: number
+          images?: string[] | null
+          likes?: boolean | null
+          model?: string
+          price?: number
+          quantity?: number | null
+          rating?: number | null
+          ratings?: number | null
+          reviews?: Json | null
+          size?: string | null
+          specifications?: Json | null
+          updated_at?: string | null
+          value?: string | null
+          view_images?: Json | null
+          views?: Json | null
+          views_images?: Json | null
         }
         Relationships: []
       }
@@ -220,6 +251,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {},
   },

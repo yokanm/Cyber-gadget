@@ -54,16 +54,3 @@ supabase/.branches/
 # Keep these - needed for deployment
 # supabase/config.toml (commit this)
 # supabase/migrations/ (commit these)
-
-.scripts/
-json-to-csv.ts
-import-to-supabase.ts
-test-connection.ts
-validate-schema.ts 
-check-sync.ts
-
-# =========================
-mock_products_200.json
-seed-products.ts
-products_new.csv
-file.sql
