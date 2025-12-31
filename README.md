@@ -1,8 +1,5 @@
 # 🛒 CYBER GADGET — E-COMMERCE STORE
 
-A modern, full-stack e-commerce platform for electronics and gadgets, built with
-performance, accessibility, and scalability in mind.
-
 ![Cyber Gadget Store Preview](./public/preview.png)
 
 ---
@@ -14,20 +11,14 @@ This project was designed based on a mobile-first, modern e-commerce UI system.
 👉 **Figma Design:**
 https://www.figma.com/design/H9LHbMHBV9Zs1xsr3dvq1N/E-Store---Mobile-web--Community-?node-id=2619-1481
 
-The implementation closely follows the design system, layout structure, spacing,
-typography, and interaction patterns defined in Figma.
-
 ---
 
 ## 📌 Project Overview
 
-**Cyber Gadget** is a production-ready, full-stack e-commerce application built
-with **Next.js 15**, **TypeScript**, and **Supabase**. It delivers a complete
-online shopping experience with advanced filtering, authentication, cart
-management, and a multi-step checkout flow.
+**Cyber Gadget** is a production-ready, full-stack e-commerce application built with **Next.js 15**, **TypeScript**, and **Supabase**.
+It delivers a complete online shopping experience with advanced filtering, authentication, cart management, and a multi-step checkout flow.
 
-The platform supports browsing, searching, filtering, wishlisting, and
-purchasing electronics across multiple categories.
+The platform supports browsing, searching, filtering, wishlisting, and purchasing electronics across multiple categories.
 
 ---
 
@@ -200,19 +191,36 @@ cyber-gadget/
 - Persistent storage
 - Badge notifications
 - Empty-state handling
+  ====================
+
+* Dynamic product fetching from Supabase
+* Category & brand filtering
+* Dual-slider price range filtering
+* Search across product name, brand & description
+* Product specifications display
+* Multiple product image views
+
+### Cart System
+
+* Add/remove items
+* Quantity adjustment
+* Persistent cart storage
+* Cart total calculation
+* Promo code support
+* Bonus card integration
+
+### Wishlist
+
+* Add/remove favorites
+* Move items to cart
+* Persistent storage
+* Badge notifications
+* Empty-state handling
 
 ---
 
 ## 🔐 Authentication Flow
 
-- Email/password registration
-- Credential validation on login
-- Protected route redirects
-- Profile updates
-- Session management
-- Multi-user support via `localStorage`
-
----
 
 ## 🗄️ Database Schema (Supabase)
 
@@ -235,33 +243,39 @@ created_at    </span><span>TIMESTAMP</span><span>
 
 ## 🚀 Performance Optimizations
 
-- Next.js Image optimization
-- Lazy loading images
-- Memoized calculations (`useMemo`)
-- Debounced search inputs
-- Pagination to limit render load
-- Suspense boundaries for async components
 
 ---
 
 ## ♿ Accessibility
 
-- Semantic HTML
-- ARIA labels
-- Keyboard navigation
-- Screen-reader friendly
-- Focus management
+
 - Proper form validation
+  ======================
+
+* Semantic HTML
+* ARIA labels
+* Keyboard navigation
+* Screen-reader friendly
+* Focus management
+* Proper form validation
 
 ---
 
 ## 📱 Responsive Design
+
 
 - Mobile-first approach
 - Breakpoints: mobile / tablet / desktop
 - Touch-friendly UI
 - Adaptive layouts
 - Mobile drawer navigation
+  ========================
+
+* Mobile-first approach
+* Breakpoints: mobile / tablet / desktop
+* Touch-friendly UI
+* Adaptive layouts
+* Mobile drawer navigation
 
 ---
 
@@ -296,41 +310,22 @@ npm run build
 - Static generation where applicable
 - Server-side rendering for dynamic content
 - API routes for backend functionality
+  ====================================
 
----
+* Optimized for **Vercel**
+* Static generation where applicable
+* Server-side rendering for dynamic content
+* API routes for backend functionality
 
 ## 🧩 Design Patterns Used
-
-- Context API for global state
-- Custom hooks for reusable logic
-- Compound components
-- Controlled vs uncontrolled components
-- Higher-order components for route protection
-- Provider pattern for context distribution
 
 ---
 
 ## 🛡️ Validation & Error Handling
 
-- Real-time form validation
-- Error boundaries
-- Toast notifications
-- Try-catch blocks for async logic
-- Fallback UI for loading states
-- Custom 404 page
-
 ---
 
 ## 🔮 Future Enhancements
-
-- Order history tracking
-- Email notifications
-- Product recommendations
-- Advanced analytics
-- Social authentication
-- Payment gateway integration
-- Multi-language support
-- Admin dashboard
 
 ## 👤 Author
 
