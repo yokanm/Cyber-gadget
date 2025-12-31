@@ -1,7 +1,7 @@
 // app/api/products/route.ts
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
-
+import { Product } from '@/type/type';
 // Create Supabase client with environment variables
 function getSupabaseClient() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -32,7 +32,7 @@ export async function GET() {
     }
 
     // Transform products to match expected format
-    const transformedProducts = (products || []).map(product => ({
+    const transformedProducts = (products || []).map((product: Product) => ({
       ...product,
       category: product.category || '',
       brand: product.brand || '',
