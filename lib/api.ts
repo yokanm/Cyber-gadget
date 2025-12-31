@@ -1,6 +1,5 @@
-// lib/api.ts
+// lib/api.ts - Production-ready version
 import { Product } from '@/type/type';
-
 
 function transformProduct(row: any): Product {
   return {
@@ -13,7 +12,7 @@ function transformProduct(row: any): Product {
     images: Array.isArray(row.images) ? row.images : [],
     icon: row.icon || null,
     details: row.details || null,
-    views_images: row.views_images || { front: '', side: '', back: '' } || null,
+    views_images: row.views_images || null,
     views: row.views || null,
     value: row.value || 'new',
     reviews: Array.isArray(row.reviews) ? row.reviews : [],
@@ -28,26 +27,96 @@ function transformProduct(row: any): Product {
   };
 }
 
+// Get the API base URL based on environment
+function getApiBaseUrl(): string {
+  // Check if we're on the server
+  if (typeof window === 'undefined') {
+    // In production, use VERCEL_URL or custom domain
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}`;
+    }
+    // In development
+    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+  }
+  
+  // On the client, use relative URL or window.location.origin
+  return window.location.origin;
+}
+
 export async function fetchProducts(): Promise<Product[]> {
   try {
-    const response = await fetch('/api/products', {
+    const baseUrl = getApiBaseUrl();
+    const apiUrl = `${baseUrl}/api/products`;
+    
+    console.log('🔍 Fetching from:', apiUrl);
+    
+    const response = await fetch(apiUrl, {
       cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (!response.ok) {
-      throw new Error('Failed to fetch products');
+      const errorData = await response.json().catch(() => ({}));
+      console.error('❌ API Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        error: errorData
+      });
+      throw new Error(`API returned ${response.status}: ${response.statusText}`);
     }
 
     const data = await response.json();
-    return Array.isArray(data) ? data.map(transformProduct) : [];
+    
+    if (!Array.isArray(data)) {
+      console.error('❌ Invalid data format:', typeof data);
+      return [];
+    }
+
+    const transformedProducts = data.map(transformProduct);
+    console.log(`✅ Fetched ${transformedProducts.length} products`);
+    
+    return transformedProducts;
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error('💥 Error fetching products:', error);
+    
+    // Return empty array instead of throwing to prevent build failures
     return [];
   }
 }
 
-
 export async function fetchCategories(): Promise<string[]> {
-  const products = await fetchProducts();
-  return [...new Set(products.map(p => p.category))];
+  try {
+    const products = await fetchProducts();
+    const categories = [...new Set(products.map(p => p.category))];
+    console.log('📁 Found categories:', categories);
+    return categories;
+  } catch (error) {
+    console.error('Error fetching categories:', error);
+    return [];
+  }
+}
+
+// Add a function to fetch a single product (useful for SSG)
+export async function fetchProductBySlug(
+  category: string,
+  brand: string,
+  slug: string
+): Promise<Product | null> {
+  try {
+    const products = await fetchProducts();
+    
+    const product = products.find(
+      (p) =>
+        p.category.toLowerCase() === category.toLowerCase() &&
+        p.brand.toLowerCase().replace(/[^a-z0-9]+/g, '-') === brand &&
+        p.model.toLowerCase().replace(/[^a-z0-9]+/g, '-') === slug
+    );
+
+    return product || null;
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    return null;
+  }
 }
